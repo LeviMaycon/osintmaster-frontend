@@ -2,6 +2,9 @@
 
 **OSINTMaster Frontend** é a interface de usuário para a coleção de ferramentas de **OSINT** (Open Source Intelligence) desenvolvidas para facilitar a coleta e análise de informações. Esta interface permite acessar ferramentas como o **Scanner IP** e outras que serão adicionadas futuramente.
 
+![image](https://github.com/user-attachments/assets/ff9e7754-c53c-4082-8ff4-e51adf1c9a98)
+
+
 ## 📦 Tecnologias Utilizadas
 
 - **Framework**: Angular 19+
