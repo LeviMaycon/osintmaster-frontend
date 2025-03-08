@@ -1,59 +1,87 @@
-# Frontend
+# OSINTMaster Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.6.
+**OSINTMaster Frontend** é a interface de usuário para a coleção de ferramentas de **OSINT** (Open Source Intelligence) desenvolvidas para facilitar a coleta e análise de informações. Esta interface permite acessar ferramentas como o **Scanner IP** e outras que serão adicionadas futuramente.
 
-## Development server
+## 📦 Tecnologias Utilizadas
 
-To start a local development server, run:
+- **Framework**: Angular 19+
+- **Estilização**: CSS Puro
+- **Comunicação**: HTTP para comunicação com o backend OSINTMaster
+
+## 🚀 Instalação
+
+### Pré-requisitos
+
+Antes de começar, verifique se você tem as seguintes dependências instaladas:
+
+- [Node.js](https://nodejs.org/) (recomendado LTS)
+- [Angular CLI](https://angular.io/cli)
+
+### Passos para Configuração
+
+#### 1. Clonando o repositório
+
+Clone o repositório em sua máquina local:
+
+```bash
+git clone https://github.com/LeviMaycon/osintmaster-frontend.git
+```
+
+#### 2. Instalando Dependências
+
+Navegue até a pasta do projeto e instale as dependências:
+
+```bash
+cd osintmaster-frontend
+npm install
+```
+
+#### 3. Configuração do Ambiente
+
+Crie um arquivo `environment.ts` na pasta `src/environments/` com as seguintes variáveis:
+
+```typescript
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:8000/api' // URL do backend Django
+};
+```
+
+#### 4. Executando o Frontend
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+O aplicativo estará disponível em `http://localhost:4200/`.
 
-## Code scaffolding
+## 🛠️ Funcionalidades da Interface
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Scanner IP
 
-```bash
-ng generate component component-name
-```
+A interface do Scanner IP permite:
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- Inserir e validar endereços IP
+- Visualizar resultados de varreduras com informações detalhadas
+- Gerar relatórios exportáveis
+- Histórico de análises anteriores
 
-```bash
-ng generate --help
-```
+## 🔗 Integração com Backend
 
-## Building
+Este frontend se comunica com o [OSINTMaster Backend](https://github.com/LeviMaycon/osintmaster-backend) através de APIs REST. Certifique-se de ter o backend configurado e em execução para utilizar todas as funcionalidades.
 
-To build the project run:
+## 🤝 Contribuições
 
-```bash
-ng build
-```
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+1. Fork o projeto
+2. Crie sua branch de funcionalidade (`git checkout -b feature/nova-funcionalidade`)
+3. Commit suas alterações (`git commit -m 'Adiciona nova funcionalidade'`)
+4. Push para a branch (`git push origin feature/nova-funcionalidade`)
+5. Abra um Pull Request
 
-## Running unit tests
+## 📞 Contato
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Para dúvidas ou sugestões, entre em contato através de:
+- Email: contato@osintmaster.com
+- GitHub: [LeviMaycon](https://github.com/LeviMaycon)
