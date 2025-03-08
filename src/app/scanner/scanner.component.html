@@ -1,0 +1,288 @@
+<div>
+  <div class="ip-scanner-container">
+    <div class="scanner-card">
+      <div class="header">
+        <h1 class="header-title">IP Scanner</h1>
+      </div>
+      <form class="form" (ngSubmit)="onScan()" #scanForm="ngForm">
+        <div class="form-group">
+          <label for="ip" class="form-label">IP Address</label>
+          <div class="input-group">
+            <input
+              type="text"
+              id="ip"
+              name="ip"
+              [(ngModel)]="ip"
+              #ipInput="ngModel"
+              required
+              pattern="^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+              class="form-input"
+              placeholder="192.168.1.1"
+              aria-describedby="ipHelpText" />
+          </div>
+          @if (ipInput.invalid && (ipInput.dirty || ipInput.touched)) {
+            <div class="error-text">
+              @if (ipInput.errors?.['required']) {
+                <span>IP address is required</span>
+              }
+              @if (ipInput.errors?.['pattern']) {
+                <span>Please enter a valid IPv4 address</span>
+              }
+            </div>
+          } @else {
+            <p id="ipHelpText" class="help-text">
+              Enter the target IP address to scan
+            </p>
+          }
+        </div>
+
+        <div class="parameters-container">
+          <div class="parameters-column">
+            <div class="form-group">
+              <label for="scanType" class="form-label">Scan Type</label>
+              <select
+                id="scanType"
+                name="scanType"
+                [(ngModel)]="selectedScanType"
+                class="form-select"
+                (change)="updateOptions()">
+                <option value="-sS">TCP SYN Scan (-sS)</option>
+                <option value="-sT">TCP Connect Scan (-sT)</option>
+                <option value="-sU">UDP Scan (-sU)</option>
+                <option value="-sV">Version Detection (-sV)</option>
+                <option value="-sA">TCP ACK Scan (-sA)</option>
+                <option value="-sN">TCP NULL Scan (-sN)</option>
+                <option value="-sF">TCP FIN Scan (-sF)</option>
+                <option value="-sX">TCP XMAS Scan (-sX)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="portRange" class="form-label">Port Range</label>
+              <select
+                id="portRange"
+                name="portRange"
+                [(ngModel)]="selectedPortRange"
+                class="form-select"
+                (change)="updateOptions()">
+                <option value="-p 1-1000">Common Ports (1-1000)</option>
+                <option value="-p 1-65535">All Ports (1-65535)</option>
+                <option value="-p 21-25,80,443,3306,8080">Web & Basic Services</option>
+                <option value="-p 80,443">HTTP/HTTPS Only</option>
+                <option value="-p-">Fast Port Scan</option>
+                <option value="-F">Top 100 Ports</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="timingTemplate" class="form-label">Timing Template</label>
+              <select
+                id="timingTemplate"
+                name="timingTemplate"
+                [(ngModel)]="selectedTimingTemplate"
+                class="form-select"
+                (change)="updateOptions()">
+                <option value="-T0">Paranoid (-T0)</option>
+                <option value="-T1">Sneaky (-T1)</option>
+                <option value="-T2">Polite (-T2)</option>
+                <option value="-T3">Normal (-T3)</option>
+                <option value="-T4">Aggressive (-T4)</option>
+                <option value="-T5">Insane (-T5)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="additionalOptions" class="form-label">Additional Options</label>
+              <div class="checkbox-group">
+                <div class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    id="osDetection"
+                    name="osDetection"
+                    [(ngModel)]="osDetection"
+                    (change)="updateOptions()">
+                  <label for="osDetection">OS Detection (-O)</label>
+                </div>
+                <div class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    id="scriptScan"
+                    name="scriptScan"
+                    [(ngModel)]="scriptScan"
+                    (change)="updateOptions()">
+                  <label for="scriptScan">Default Scripts (-sC)</label>
+                </div>
+                <div class="checkbox-item">
+                  <input
+                    type="checkbox"
+                    id="verbose"
+                    name="verbose"
+                    [(ngModel)]="verbose"
+                    (change)="updateOptions()">
+                  <label for="verbose">Verbose Output (-v)</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="options" class="form-label">Command Preview</label>
+              <div class="input-group">
+                <input
+                  type="text"
+                  id="options"
+                  name="options"
+                  [(ngModel)]="options"
+                  #optionsInput="ngModel"
+                  required
+                  class="form-input"
+                  placeholder="-p 80,443,8080 -sV -T4"
+                  aria-describedby="optionsHelpText" />
+              </div>
+              @if (optionsInput.invalid && (optionsInput.dirty || optionsInput.touched)) {
+                <div class="error-text">
+                  <span>Scan parameters are required</span>
+                </div>
+              } @else {
+                <p id="optionsHelpText" class="help-text">
+                  Review or manually edit scan command parameters
+                </p>
+              }
+            </div>
+
+            <button
+              type="submit"
+              [disabled]="scanForm.invalid"
+              class="scan-button">
+              Scan Now
+            </button>
+          </div>
+
+          <div class="manual-column">
+            <div class="manual-container">
+              <h3 class="manual-title">Scan Options Reference</h3>
+
+              <div class="manual-section">
+                <h4 class="manual-section-title">Scan Types</h4>
+                <div class="manual-item">
+                  <span class="manual-item-name">-sS (TCP SYN Scan)</span>
+                  <p class="manual-item-desc">Default scan method. Fast, accurate, and relatively stealthy as it doesn't complete TCP connections.</p>
+                </div>
+                <div class="manual-item">
+                  <span class="manual-item-name">-sT (TCP Connect Scan)</span>
+                  <p class="manual-item-desc">Uses full TCP connection. Slower but more reliable, especially when SYN scans don't work.</p>
+                </div>
+                <div class="manual-item">
+                  <span class="manual-item-name">-sU (UDP Scan)</span>
+                  <p class="manual-item-desc">Scans UDP ports. Slower but essential for comprehensive security assessment.</p>
+                </div>
+                <div class="manual-item">
+                  <span class="manual-item-name">-sV (Version Detection)</span>
+                  <p class="manual-item-desc">Probes open ports to determine service/version info of running applications.</p>
+                </div>
+                <div class="manual-item">
+                  <span class="manual-item-name">-sA (TCP ACK Scan)</span>
+                  <p class="manual-item-desc">Used to map firewall rulesets, determining if they are stateful or not.</p>
+                </div>
+                <div class="manual-item">
+                  <span class="manual-item-name">-sN/-sF/-sX (Stealth Scans)</span>
+                  <p class="manual-item-desc">NULL, FIN, and XMAS scans that might bypass certain firewall rules.</p>
+                </div>
+              </div>
+
+              <div class="manual-section">
+                <h4 class="manual-section-title">Port Selection</h4>
+                <div class="manual-item">
+                  <span class="manual-item-name">-p 1-1000</span>
+                  <p class="manual-item-desc">Scans ports 1-1000, covering most common services.</p>
+                </div>
+                <div class="manual-item">
+                  <span class="manual-item-name">-p 1-65535</span>
+                  <p class="manual-item-desc">Scans all possible TCP/UDP ports. Very thorough but slow.</p>
+                </div>
+                <div class="manual-item">
+                  <span class="manual-item-name">-p-</span>
+                  <p class="manual-item-desc">Shorthand to scan all ports from 1-65535.</p>
+                </div>
+                <div class="manual-item">
+                  <span class="manual-item-name">-F (Fast)</span>
+                  <p class="manual-item-desc">Scans only top 100 most common ports, very quick for initial assessment.</p>
+                </div>
+              </div>
+
+              <div class="manual-section">
+                <h4 class="manual-section-title">Timing Templates</h4>
+                <div class="manual-item">
+                  <span class="manual-item-name">-T0 (Paranoid)</span>
+                  <p class="manual-item-desc">Extremely slow, serialized scan. Very stealthy but takes hours.</p>
+                </div>
+                <div class="manual-item">
+                  <span class="manual-item-name">-T1 (Sneaky)</span>
+                  <p class="manual-item-desc">Slow scan to avoid detection. Waits 15 seconds between probes.</p>
+                </div>
+                <div class="manual-item">
+                  <span class="manual-item-name">-T3 (Normal)</span>
+                  <p class="manual-item-desc">Default timing template that balances speed with reliability.</p>
+                </div>
+                <div class="manual-item">
+                  <span class="manual-item-name">-T4 (Aggressive)</span>
+                  <p class="manual-item-desc">Fast scan that assumes a reliable network connection.</p>
+                </div>
+                <div class="manual-item">
+                  <span class="manual-item-name">-T5 (Insane)</span>
+                  <p class="manual-item-desc">Extremely fast but may miss ports if network isn't reliable.</p>
+                </div>
+              </div>
+
+              <div class="manual-section">
+                <h4 class="manual-section-title">Additional Options</h4>
+                <div class="manual-item">
+                  <span class="manual-item-name">-O (OS Detection)</span>
+                  <p class="manual-item-desc">Attempts to identify the operating system of the target.</p>
+                </div>
+                <div class="manual-item">
+                  <span class="manual-item-name">-sC (Script Scan)</span>
+                  <p class="manual-item-desc">Runs default set of scripts to gather more information about targets.</p>
+                </div>
+                <div class="manual-item">
+                  <span class="manual-item-name">-v (Verbose)</span>
+                  <p class="manual-item-desc">Increases output verbosity, showing more details during scan.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      @if (result) {
+        <div class="result-container">
+          <div class="result-header">
+            <div class="result-title">
+              <div class="status-dot"></div>
+              <h2 class="result-title-text">Scan Result</h2>
+            </div>
+            <div class="result-actions">
+              <button (click)="copyResult()" id="copy" class="result-action-button" aria-label="Copy result to clipboard">
+                Copy
+              </button>
+              <button (click)="clearResult()" class="result-action-button" aria-label="Clear results">
+                Clear
+              </button>
+            </div>
+          </div>
+          <pre class="result-content">{{ result }}</pre>
+        </div>
+      }
+
+      @if (isLoading) {
+        <div class="loading-container">
+          <div class="loading-spinner"></div>
+          <span class="loading-text">Scanning target...</span>
+        </div>
+      }
+
+      <div class="footer">
+        <p>Use this tool responsibly. Only scan IP addresses you have permission to test.</p>
+      </div>
+    </div>
+  </div>
+</div>
