@@ -86,5 +86,4 @@ Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar
 ## 📞 Contato
 
 Para dúvidas ou sugestões, entre em contato através de:
-- Email: contato@osintmaster.com
 - GitHub: [LeviMaycon](https://github.com/LeviMaycon)
